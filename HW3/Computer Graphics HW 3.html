@@ -18,6 +18,7 @@
 <script id='fss_script' type='x-shader/x-fragment'>
 
 ---------------------------------------------------------------------
+
 varying vec3 vPos;                               // Position in image
 uniform float uTime;                             // Time
 vec4 S[2];                                       // Spheres
@@ -64,9 +65,18 @@ vec3 phong(vec3 N, vec3 E, vec3 A, vec3 D, vec4 Sp, int cur) {
          float s = pow(max(0., dot(E, R)), Sp.a);    // Specular value
          c += LCol[i] * (d * D + s * Sp.rgb * .1*Sp.a);
       }
+      else{
+         vec3  Light = normalize(LDir[i].xyz);
+         float d = 0.;           // Diffuse value
+         vec3  R = reflection(Light, N);
+         float s = 0.;    // Specular value
+         c += LCol[i] * (d * D + s * Sp.rgb * .1*Sp.a);
+      }
    }
    return c;
 }
+
+
 
 
 void main() {
@@ -105,6 +115,7 @@ void main() {
 
    gl_FragColor = vec4(sqrt(c), 1.);             // Final pixel color
 }
+
 
 ---------------------------------------------------------------------
 Spheres reflect background, and make spheres metallic.
