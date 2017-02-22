@@ -115,11 +115,14 @@ Shadows, more obvious than before.
 
 ---------------------------------------------------------------------
 
+
 varying vec3 vPos;                             // Position in image
 uniform float uTime;                           // Time
 
 vec4 C;
 vec3 V, W, P, E, N;
+
+vec4 Circ;
 
 vec2 raytraceSphere(vec3 V, vec3 W, vec4 S) {
    V -= S.xyz;
@@ -144,23 +147,20 @@ vec3 backgroundColor(vec3 dir) {
 vec3 phong(vec3 N, vec3 E, vec3 A, vec3 D, vec4 S) {
    vec3 c = A * backgroundColor(N);            // Ambient color
    for (int i = 0 ; i < uLDirs_length ; i++) { // Loop through lights
-      vec2 t;
       vec3  LDir = normalize(uLDirs[i]);
-      for(int j=0; j<uSpheres_length; j++){
-         t = raytraceSphere(P+0.001*LDir, LDir, uSpheres[j]);
-         if(t.x<1000.){
-            break;
-         }
-         else if(t.x == 1000.){
-             float d = max(0., dot(N, LDir));           // Diffuse value
-             vec3  R = reflection(LDir, N);
-             float s = pow(max(0., dot(E, R)), S.a);    // Specular value
-             c += uLColors[i] * (d * D + s * S.rgb * .1*S.a);
-         }
-         
+      float d = max(0., dot(N, LDir));           // Diffuse value
+      vec3  R = reflection(LDir, N);
+      float s = pow(max(0., dot(E, R)), S.a);    // Specular value
+      if(S.a == 0.){
+         //refraction();
       }
+      c += uLColors[i] * (d * D + s * S.rgb * .1*S.a);
    }
    return c;
+}
+
+vec3 refraction(){
+    return vec3(0., 0., 0.);
 }
 
 bool raytrace() {
@@ -175,22 +175,28 @@ bool raytrace() {
          distance = t.x;
       }
    }
+   vec2 t = raytraceSphere(V, W, Circ);
+      if (t.x < distance) {
+         C = vec4(1., 10., 1., 0.);
+         P = V + t.x * W;                      // Point on sphere
+         E = -normalize(P);                    // Direction to eye
+         N = normalize(P - Circ.xyz);   // Surface normal
+         distance = t.x;
+      }
    return distance < 1000.;
 }
 
-vec3 refract(){
-   
-   return vec3(0., 0., 0.);
-}
-
 void main() {
+
+   Circ = vec4(0., 0., 5., 5.);
+
    vec3 c = vec3(0.,0.,0.);
 
    V = vec3(0.,0.,0.);                         // Ray origin
    W = normalize(vec3(vPos.xy, -3.));          // Ray direction
    if (! raytrace())
       c = backgroundColor(vPos);
-   else
+   else{
       for (int bounce = 0 ; bounce < 5 ; bounce++) {
 	 c += phong(N, E, .1*C.rgb, .5*C.rgb, C);
 	 V = P + .001 * W;
@@ -200,9 +206,11 @@ void main() {
 	    break;
          }
       }
+   }
          
    gl_FragColor = vec4(sqrt(c), 1.);           // Final pixel color
 }
+
 
 ---------------------------------------------------------------------
 Refraction extra credit.
