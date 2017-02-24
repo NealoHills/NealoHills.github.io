@@ -116,6 +116,7 @@ Shadows, more obvious than before.
 ---------------------------------------------------------------------
 
 
+
 varying vec3 vPos;                             // Position in image
 uniform float uTime;                           // Time
 
@@ -160,6 +161,7 @@ vec3 phong(vec3 N, vec3 E, vec3 A, vec3 D, vec4 S) {
 }
 
 vec3 refraction(){
+    //W = sin(1)/sin(1.5); // need to implement this refraction
     return vec3(0., 0., 0.);
 }
 
