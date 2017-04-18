@@ -79,9 +79,9 @@ var S = (function() {
 	   vec2 = [P[2][0]-P[1][0], P[2][1]-P[1][1], P[2][2]-P[1][2]];
 	   norm = [(vec1[1]*vec2[2])-(vec1[2]*vec2[1]), (vec1[2]*vec2[0])-(vec1[0]*vec2[2]), (vec1[0]*vec2[1])-(vec1[1]*vec2[0])];
 	   length = Math.sqrt((norm[0]*norm[0]) + (norm[1]*norm[1]) + (norm[2]*norm[2]));
-	   norm[0] = norm[0]/length;
-	   norm[1] = norm[1]/length;
-	   norm[2] = norm[2]/length;
+	   norm[0] = norm[0]/-length;
+	   norm[1] = norm[1]/-length;
+	   norm[2] = norm[2]/-length;
 	   norms.push(norm);
 	   vec1 = [P[0][0]-P[2][0], P[0][1]-P[2][1], P[0][2]-P[2][2]];
 	   vec2 = [P[1][0]-P[2][0], P[1][1]-P[2][1], P[1][2]-P[2][2]];
@@ -104,9 +104,9 @@ var S = (function() {
 	   vec2 = [P[4][0]-P[3][0], P[4][1]-P[3][1], P[4][2]-P[3][2]];
 	   norm = [(vec1[1]*vec2[2])-(vec1[2]*vec2[1]), (vec1[2]*vec2[0])-(vec1[0]*vec2[2]), (vec1[0]*vec2[1])-(vec1[1]*vec2[0])];
 	   length = Math.sqrt((norm[0]*norm[0]) + (norm[1]*norm[1]) + (norm[2]*norm[2]));
-	   norm[0] = norm[0]/length;
-	   norm[1] = norm[1]/length;
-	   norm[2] = norm[2]/length;
+	   norm[0] = norm[0]/-length;
+	   norm[1] = norm[1]/-length;
+	   norm[2] = norm[2]/-length;
 	   norms.push(norm);
 	   vec1 = [P[2][0]-P[4][0], P[2][1]-P[4][1], P[2][2]-P[4][2]];
 	   vec2 = [P[3][0]-P[4][0], P[3][1]-P[4][1], P[3][2]-P[4][2]];
