@@ -59,6 +59,7 @@ Some ways this could be extended:
 	var key_M = false;
 
    canvas1.update = function(g) {
+   if(P.length){
       g.lineCap = 'round';
       g.lineJoin = 'round';
       g.lineWidth = 1;
@@ -84,10 +85,12 @@ Some ways this could be extended:
 		}
 		if(e.which==99)
 		{
+			//console.log("here");
 			open = !open;
 		}
 	  }
 	  );
+	  //console.log(open);
 	  //$(document).keyrelease(function(e)
 	  {
 	//	if(e.which==109)
@@ -131,8 +134,11 @@ Some ways this could be extended:
 
          if (this.n !== undefined) {
 			if(key_M){
+			var r = confirm("Do you want to delete the point?");
+			if(r){
 				P.splice(P[n], 1);
-				//delete this.n;
+				delete this.n;
+			}
 			}
             else {
 				P[this.n][0] = cx;
@@ -218,6 +224,7 @@ else{
          this.drawCurves(m, curves );
 
       M.restore(m);
+   }
    }
 
    drawCanvases([canvas1]);

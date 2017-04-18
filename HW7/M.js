@@ -59,9 +59,15 @@ M.scale = function(m, v){
 							}
 							else
 								x = y = z = v;
-							m[0]=m[0]*x;
-							m[5]=m[5]*y;
-							m[10]=m[10]*z;
+							for(var i=0; i<4; i++){
+								m[i]=m[i]*x;
+							}
+							for(var i=4; i<8; i++){
+								m[i]=m[i]*y;
+							}
+							for(var i=8; i<12; i++){
+								m[i]=m[i]*z;
+							}
 						} // Modify m, scaling by v[0],v[1],v[2].
 //M.transform = function(m, v)       { return m; } // Return vec v transformed by matrix m.
 //M.translate = function(m, v)       {           } // Modify m, translating by v[0],v[1],v[2].
