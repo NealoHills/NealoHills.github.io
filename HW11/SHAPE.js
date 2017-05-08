@@ -49,6 +49,40 @@ var SHAPE = (function() {
       return V;
    }
 
+   function addSphere(V, n) {
+      return addMeshVertices(V, n, n, function(u, v) {
+            let theta = 2 * Math.PI * u;
+            let phi   = Math.PI * (v - .5);
+            let c     = Math.cos(theta) * Math.cos(phi);
+            let s     = Math.sin(theta) * Math.cos(phi);
+            let z     = Math.sin(phi);
+            return [c,s,z, c,s,z, u,v];
+         });
+      // var theta = 2 * Math.PI * u;
+      // var phi = Math.PI * (v - .5);
+      // return [ Math.cos(theta) * Math.cos(phi),
+      //          Math.sin(theta) * Math.cos(phi),
+      //                            Math.sin(phi) ];
+   }
+
+   my.sphere = function(n) {
+      var V = [];
+      addSphere(V, n);
+      return V;
+   }
+
+   // function addSquare(V, n) {
+   //    return addMeshVertices(V, 2, 2, function(u, v) {
+
+   //    });
+   // }
+
+   // my.square = function(n) {
+
+   // }
+
+
+
+
    return my;
 })();
-
